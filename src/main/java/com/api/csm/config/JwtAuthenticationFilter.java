@@ -1,6 +1,7 @@
 package com.api.csm.config;
 
 import com.api.csm.auth.JWTUtils;
+import com.api.csm.config.properties.CookieProperties;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -25,6 +26,7 @@ import java.util.stream.Collectors;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JWTUtils jwtUtils;
+    private final CookieProperties cookieProperties;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
@@ -54,8 +56,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
 
         Claims claims = jwtUtils.parseToken(token);
+
+        SecurityContextHolder.clearContext();
+
         setAuthentication(claims);
-        log.info("claims {}", claims);
+        log.debug("JWT válido para usuario: {} con roles {}",
+                claims.getSubject(), claims.get("authorities"));
+
         filterChain.doFilter(request, response);
 
     }
@@ -65,20 +72,17 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(
                 claims.getSubject(),
                 null,
-                roles.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList())
+                roles.stream()
+                        .map(SimpleGrantedAuthority::new)
+                        .collect(Collectors.toList())
         );
         SecurityContextHolder.getContext().setAuthentication(auth);
     }
 
     private String extractToken(HttpServletRequest request) {
-        String bearerToken = request.getHeader("Authorization");
-        if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
-            return bearerToken.substring(7);
-        }
-
         if (request.getCookies() != null) {
             for (Cookie cookie : request.getCookies()) {
-                if ("jwt_token".equals(cookie.getName())) {
+                if (cookieProperties.getName().equals(cookie.getName())) {
                     return cookie.getValue();
                 }
             }

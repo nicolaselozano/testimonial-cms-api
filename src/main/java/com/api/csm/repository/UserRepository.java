@@ -1,7 +1,7 @@
 package com.api.csm.repository;
 
 import com.api.csm.models.User;
-import com.api.csm.user.RoleEnum;
+import com.api.csm.utils.RoleEnum;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -1,8 +1,10 @@
-package com.api.csm.auth;
+package com.api.csm.controllers.auth;
 
+import com.api.csm.auth.CookieService;
+import com.api.csm.auth.JWTUtils;
+import com.api.csm.auth.RefreshTokenService;
 import com.api.csm.models.RefreshToken;
 import com.api.csm.models.User;
-import com.api.csm.utils.AesUtil;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -10,10 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,8 +26,8 @@ import java.util.Optional;
 public class AuthController {
 
     private final JWTUtils jwtUtils;
-    private final CookieUseCase cookieUseCase;
-    private final RefreshTokenUseCase refreshTokenUseCase;
+    private final CookieService cookieService;
+    private final RefreshTokenService refreshTokenService;
 
     @GetMapping("/refresh")
     public ResponseEntity<?> refresh(HttpServletRequest request, HttpServletResponse response) {
@@ -40,7 +39,7 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Refresh token no encontrado");
         }
 
-        Optional<RefreshToken> storedToken = refreshTokenUseCase.validateRefreshToken(refreshToken);
+        Optional<RefreshToken> storedToken = refreshTokenService.validateRefreshToken(refreshToken);
         if (storedToken.isEmpty()) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Refresh token inválido o expirado");
         }
@@ -52,7 +51,7 @@ public class AuthController {
 
         String newAccessToken = createTokenWithRefreshToken(user,refreshToken);
 
-        cookieUseCase.addJwtCookie(response, newAccessToken);
+        cookieService.addJwtCookie(response, newAccessToken);
 
         return ResponseEntity.ok(Map.of("message", "Token renovado"));
     }
@@ -60,7 +59,7 @@ public class AuthController {
 
     private String createTokenWithRefreshToken(User userEntity, String refreshToken){
 
-        RefreshToken entityRefreshToken = refreshTokenUseCase.validateRefreshToken(refreshToken).orElseThrow();
+        RefreshToken entityRefreshToken = refreshTokenService.validateRefreshToken(refreshToken).orElseThrow();
 
         if(userEntity.getId() != entityRefreshToken.getUser().getId()){
             log.error("El Id del Usuario no coincide : {}", entityRefreshToken.getUser().getId());
@@ -86,15 +85,17 @@ public class AuthController {
         return null;
     }
 
-    @PostMapping("/logout")
+    @GetMapping("/logout")
     public ResponseEntity<?> logout(HttpServletRequest request, HttpServletResponse response) {
         String refreshToken = extractRefreshToken(request);
         if (refreshToken != null) {
-            refreshTokenUseCase.revokeRefreshToken(refreshToken);
+            refreshTokenService.revokeRefreshToken(refreshToken);
         }
 
-        cookieUseCase.clearJwtCookie(response);
-        cookieUseCase.clearRefreshTokenCookie(response);
+        cookieService.clearJwtCookie(response);
+        cookieService.clearRefreshTokenCookie(response);
+
+        SecurityContextHolder.clearContext();
 
         return ResponseEntity.ok(Map.of("message", "Sesión cerrada correctamente"));
     }

@@ -1,6 +1,7 @@
 package com.api.csm.models;
 
-import com.api.csm.user.RoleEnum;
+import com.api.csm.utils.Auditable;
+import com.api.csm.utils.RoleEnum;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;

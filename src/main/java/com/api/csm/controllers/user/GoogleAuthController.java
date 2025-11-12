@@ -1,6 +1,6 @@
-package com.api.csm.user;
+package com.api.csm.controllers.user;
 
-import com.api.csm.auth.CustomUserDetailUseCase;
+import com.api.csm.auth.CustomUserDetailService;
 import com.api.csm.utils.AesUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
@@ -19,7 +19,7 @@ import java.util.Map;
 public class GoogleAuthController {
 
     private final AesUtil aesUtil;
-    private final CustomUserDetailUseCase customUserDetailUseCase;
+    private final CustomUserDetailService customUserDetailService;
 
     @GetMapping("/success")
     public ResponseEntity<Map<String, String>> success(HttpServletRequest request) {

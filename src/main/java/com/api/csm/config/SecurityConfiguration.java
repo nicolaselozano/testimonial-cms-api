@@ -1,6 +1,6 @@
 package com.api.csm.config;
 
-import com.api.csm.auth.CustomOAuth2UserUseCase;
+import com.api.csm.auth.CustomOAuth2UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
@@ -11,8 +11,6 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -35,7 +33,7 @@ public class SecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity http,
                                                    JwtAuthenticationEntryPoint authenticationEntryPoint,
                                                    JwtAccessDeniedHandler accessDeniedHandler,
-                                                   CustomOAuth2UserUseCase customOAuth2UserUseCase) throws Exception {
+                                                   CustomOAuth2UserService customOAuth2UserService) throws Exception {
         return http
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(auth -> auth
@@ -45,7 +43,7 @@ public class SecurityConfiguration {
                 )
                 .oauth2Login(oauth2 -> oauth2
                         .userInfoEndpoint(userInfo -> userInfo
-                                .userService(customOAuth2UserUseCase)
+                                .userService(customOAuth2UserService)
                         )
                         .authorizationEndpoint(auth -> auth.baseUri("/oauth2/authorize"))
                         .redirectionEndpoint(redirect -> redirect.baseUri("/oauth2/callback/*"))

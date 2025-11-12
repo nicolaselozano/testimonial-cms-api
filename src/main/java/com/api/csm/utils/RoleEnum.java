@@ -1,4 +1,4 @@
-package com.api.csm.user;
+package com.api.csm.utils;
 
 public enum RoleEnum {
     ADMIN,USER

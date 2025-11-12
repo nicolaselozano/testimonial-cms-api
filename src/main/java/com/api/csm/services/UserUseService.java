@@ -1,8 +1,9 @@
-package com.api.csm.user;
+package com.api.csm.services;
 
 import com.api.csm.interfaces.UserUseCase;
 import com.api.csm.models.User;
 import com.api.csm.repository.UserRepository;
+import com.api.csm.utils.RoleEnum;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -16,7 +17,7 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class UserUseCaseImpl implements UserUseCase {
+public class UserUseService implements UserUseCase {
     private final UserRepository userRepository;
 
     public User create(User user) {

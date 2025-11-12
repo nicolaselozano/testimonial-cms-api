@@ -17,9 +17,9 @@ import java.util.Map;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class CustomOAuth2UserUseCase extends DefaultOAuth2UserService {
+public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
-    private final OAuth2UserHandlerUseCase oAuth2UserHandlerUseCase;
+    private final OAuth2UserHandlerService oAuth2UserHandlerService;
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
@@ -31,7 +31,7 @@ public class CustomOAuth2UserUseCase extends DefaultOAuth2UserService {
             throw new OAuth2AuthenticationException("Email or Name attribute is missing from OAuth2 provider");
         }
 
-        User userEntity = oAuth2UserHandlerUseCase.loadOAuthUser(email);
+        User userEntity = oAuth2UserHandlerService.loadOAuthUser(email);
 
         Map<String, Object> attributes = new HashMap<>(oAuth2User.getAttributes());
         attributes.put("userId", userEntity.getId());

@@ -1,7 +1,7 @@
 package com.api.csm.interfaces;
 
 import com.api.csm.models.User;
-import com.api.csm.user.RoleEnum;
+import com.api.csm.utils.RoleEnum;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

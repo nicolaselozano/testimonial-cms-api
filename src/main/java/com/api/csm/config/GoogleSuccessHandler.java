@@ -1,9 +1,9 @@
 package com.api.csm.config;
 
-import com.api.csm.auth.CookieUseCase;
-import com.api.csm.auth.CustomUserDetailUseCase;
+import com.api.csm.auth.CookieService;
+import com.api.csm.auth.CustomUserDetailService;
 import com.api.csm.auth.JWTUtils;
-import com.api.csm.auth.RefreshTokenUseCase;
+import com.api.csm.auth.RefreshTokenService;
 import com.api.csm.models.User;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -24,9 +24,9 @@ import java.util.List;
 public class GoogleSuccessHandler implements AuthenticationSuccessHandler {
 
     private final JWTUtils jwtUtils;
-    private final CookieUseCase cookieUseCase;
-    private final CustomUserDetailUseCase customUserDetailUseCase;
-    private final RefreshTokenUseCase refreshTokenUseCase;
+    private final CookieService cookieService;
+    private final CustomUserDetailService customUserDetailService;
+    private final RefreshTokenService refreshTokenService;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request,
@@ -41,17 +41,17 @@ public class GoogleSuccessHandler implements AuthenticationSuccessHandler {
                 throw new RuntimeException("Email or Name attribute is missing from OAuth2 provider");
             }
 
-            User userEntity = customUserDetailUseCase.findOrCreateOAuthUser(email,name);
+            User userEntity = customUserDetailService.findOrCreateOAuthUser(email,name);
 
             List<String> roles = userEntity.getRoles().stream()
                     .map(r -> "ROLE_" + r.getRole().name())
                     .toList();
 
             String token = jwtUtils.generateToken(userEntity.getId(), roles);
-            String refreshToken = refreshTokenUseCase.createRefreshToken(userEntity);
+            String refreshToken = refreshTokenService.createRefreshToken(userEntity);
 
-            cookieUseCase.addJwtCookie(response, token);
-            cookieUseCase.addRefreshTokenCookie(response, refreshToken);
+            cookieService.addJwtCookie(response, token);
+            cookieService.addRefreshTokenCookie(response, refreshToken);
 
             log.info("JWT generado para userId={} email={}", userEntity.getId(), userEntity.getEmail());
 

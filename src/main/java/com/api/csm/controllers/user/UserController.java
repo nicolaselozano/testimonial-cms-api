@@ -1,6 +1,6 @@
-package com.api.csm.user;
+package com.api.csm.controllers.user;
 
-import com.api.csm.auth.CustomUserDetailUseCase;
+import com.api.csm.auth.CustomUserDetailService;
 import com.api.csm.dto.UserDetailDto;
 import com.api.csm.interfaces.UserUseCase;
 import com.api.csm.models.User;
@@ -19,7 +19,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class UserController {
     private final UserUseCase userUseCase;
-    private final CustomUserDetailUseCase customUserDetailUseCase;
+    private final CustomUserDetailService customUserDetailService;
 
     @PostMapping
     public ResponseEntity<User> create(@RequestBody User user) {
@@ -29,7 +29,7 @@ public class UserController {
     @GetMapping("/me")
     public ResponseEntity<UserDetailDto> getMeUser(Authentication authentication) {
         UUID userId = UUID.fromString(authentication.getName());
-        UserDetailDto dto = customUserDetailUseCase.getUserDetailDtoById(userId);
+        UserDetailDto dto = customUserDetailService.getUserDetailDtoById(userId);
 
         return ResponseEntity.ok(dto);
     }

@@ -6,7 +6,7 @@ import com.api.csm.models.Role;
 import com.api.csm.models.User;
 import com.api.csm.repository.RoleRepository;
 import com.api.csm.repository.UserRepository;
-import com.api.csm.user.RoleEnum;
+import com.api.csm.utils.RoleEnum;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -22,7 +22,7 @@ import java.util.UUID;
 @Service
 @AllArgsConstructor
 @Slf4j
-public class CustomUserDetailUseCase {
+public class CustomUserDetailService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;

@@ -1,5 +1,6 @@
 package com.api.csm.models;
 
+import com.api.csm.utils.Auditable;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;

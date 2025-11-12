@@ -1,7 +1,6 @@
 package com.api.csm.auth;
 
 import com.api.csm.config.properties.CookieProperties;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -10,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class CookieUseCase {
+public class CookieService {
 
     private final CookieProperties props;
 
@@ -37,17 +36,27 @@ public class CookieUseCase {
     }
 
     public void clearJwtCookie(HttpServletResponse response) {
-        Cookie cookie = new Cookie("jwt_token", null);
-        cookie.setMaxAge(0);
-        cookie.setPath("/");
-        response.addCookie(cookie);
+        ResponseCookie cookie = ResponseCookie.from(props.getName(), "")
+                .path(props.getPath())
+                .httpOnly(props.isHttpOnly())
+                .secure(props.isSecure())
+                .sameSite(props.getSameSite())
+                .maxAge(0)
+                .build();
+
+        response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
     }
 
     public void clearRefreshTokenCookie(HttpServletResponse response) {
-        Cookie cookie = new Cookie("refresh_token", null);
-        cookie.setMaxAge(0);
-        cookie.setPath("/auth/refresh");
-        response.addCookie(cookie);
+        ResponseCookie cookie = ResponseCookie.from("refresh_token", "")
+                .path("/auth/refresh")
+                .httpOnly(props.isHttpOnly())
+                .secure(props.isSecure())
+                .sameSite(props.getSameSite())
+                .maxAge(0)
+                .build();
+
+        response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
     }
 
 

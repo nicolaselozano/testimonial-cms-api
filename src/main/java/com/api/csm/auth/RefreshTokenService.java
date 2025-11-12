@@ -12,7 +12,7 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class RefreshTokenUseCase {
+public class RefreshTokenService {
 
     private final RefreshTokenRepository refreshTokenRepository;
 

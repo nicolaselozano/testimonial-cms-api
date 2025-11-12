@@ -1,7 +1,7 @@
 package com.api.csm.repository;
 
 import com.api.csm.models.Role;
-import com.api.csm.user.RoleEnum;
+import com.api.csm.utils.RoleEnum;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
