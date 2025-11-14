@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface UserUseCase {
+public interface UserService {
     User create(User user);
     Optional<User> getById(UUID id);
     Optional<User> getByUsername(String username);
