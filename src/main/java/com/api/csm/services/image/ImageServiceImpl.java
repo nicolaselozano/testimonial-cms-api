@@ -5,10 +5,14 @@ import com.api.csm.interfaces.image.ImageService;
 import com.api.csm.models.Image;
 import com.api.csm.repository.ImageRepository;
 import com.api.csm.utils.image.ImageModel;
+import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 
 import java.util.Map;
 
+@Service
+@AllArgsConstructor
 public class ImageServiceImpl implements ImageService {
 
     private CloudinaryService cloudinaryService;

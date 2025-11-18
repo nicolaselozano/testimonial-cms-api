@@ -1,6 +1,6 @@
-package com.api.csm.services;
+package com.api.csm.services.user;
 
-import com.api.csm.interfaces.UserService;
+import com.api.csm.interfaces.user.UserService;
 import com.api.csm.models.User;
 import com.api.csm.repository.UserRepository;
 import com.api.csm.utils.RoleEnum;

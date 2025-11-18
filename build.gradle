@@ -52,6 +52,7 @@ dependencies {
     implementation 'me.paulschwarz:spring-dotenv:4.0.0'
 
     implementation 'com.cloudinary:cloudinary-core:2.3.2'
+    implementation 'com.cloudinary:cloudinary-http5:2.3.2'
 
 }
 

@@ -2,7 +2,7 @@ package com.api.csm.controllers.user;
 
 import com.api.csm.auth.CustomUserDetailService;
 import com.api.csm.dto.UserDetailDto;
-import com.api.csm.interfaces.UserService;
+import com.api.csm.interfaces.user.UserService;
 import com.api.csm.models.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

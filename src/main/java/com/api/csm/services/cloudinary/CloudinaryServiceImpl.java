@@ -5,12 +5,14 @@ import com.cloudinary.Cloudinary;
 import jakarta.annotation.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+@Service
 public class CloudinaryServiceImpl implements CloudinaryService {
     private static final Logger log = LoggerFactory.getLogger(CloudinaryServiceImpl.class);
     @Resource

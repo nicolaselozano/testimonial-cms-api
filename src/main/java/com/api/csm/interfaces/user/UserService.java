@@ -1,4 +1,4 @@
-package com.api.csm.interfaces;
+package com.api.csm.interfaces.user;
 
 import com.api.csm.models.User;
 import com.api.csm.utils.RoleEnum;

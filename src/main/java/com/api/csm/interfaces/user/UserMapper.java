@@ -1,15 +1,12 @@
-package com.api.csm.interfaces;
+package com.api.csm.interfaces.user;
 
 
 import com.api.csm.dto.UserDetailDto;
 import com.api.csm.models.User;
-import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 
-import java.util.Collections;
-import java.util.List;
 import java.util.UUID;
 
 
