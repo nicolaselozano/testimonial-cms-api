@@ -1,7 +1,7 @@
 package com.api.csm.auth;
 
 import com.api.csm.dto.UserDetailDto;
-import com.api.csm.interfaces.UserMapper;
+import com.api.csm.interfaces.user.UserMapper;
 import com.api.csm.models.Role;
 import com.api.csm.models.User;
 import com.api.csm.repository.RoleRepository;

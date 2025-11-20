@@ -1,4 +1,4 @@
-package com.api.csm.config;
+package com.api.csm.config.auth;
 
 import com.api.csm.auth.JWTUtils;
 import com.api.csm.config.properties.CookieProperties;

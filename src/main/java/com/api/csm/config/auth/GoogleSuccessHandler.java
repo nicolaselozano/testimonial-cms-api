@@ -1,4 +1,4 @@
-package com.api.csm.config;
+package com.api.csm.config.auth;
 
 import com.api.csm.auth.CookieService;
 import com.api.csm.auth.CustomUserDetailService;

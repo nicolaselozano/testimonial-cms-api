@@ -1,6 +1,10 @@
 package com.api.csm.config;
 
 import com.api.csm.auth.CustomOAuth2UserService;
+import com.api.csm.config.auth.GoogleSuccessHandler;
+import com.api.csm.config.auth.JwtAccessDeniedHandler;
+import com.api.csm.config.auth.JwtAuthenticationEntryPoint;
+import com.api.csm.config.auth.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
@@ -36,6 +40,7 @@ public class SecurityConfiguration {
                                                    CustomOAuth2UserService customOAuth2UserService) throws Exception {
         return http
                 .cors(Customizer.withDefaults())
+                .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/oauth2/**", "/auth/**","/ws/**").permitAll()
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").hasRole("USER")

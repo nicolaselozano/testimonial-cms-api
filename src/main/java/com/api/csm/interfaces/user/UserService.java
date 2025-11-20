@@ -1,4 +1,4 @@
-package com.api.csm.interfaces;
+package com.api.csm.interfaces.user;
 
 import com.api.csm.models.User;
 import com.api.csm.utils.RoleEnum;
@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface UserUseCase {
+public interface UserService {
     User create(User user);
     Optional<User> getById(UUID id);
     Optional<User> getByUsername(String username);
