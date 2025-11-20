@@ -17,7 +17,7 @@ import java.util.UUID;
 @Builder
 @SQLDelete(sql = "UPDATE users SET deleted = true WHERE id = ?")
 @SQLRestriction("deleted = false")
-public class Image extends Auditable {
+public class Video extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
