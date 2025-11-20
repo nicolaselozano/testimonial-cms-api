@@ -2,7 +2,7 @@ package com.api.csm.controllers.user;
 
 import com.api.csm.auth.CustomUserDetailService;
 import com.api.csm.dto.UserDetailDto;
-import com.api.csm.interfaces.UserUseCase;
+import com.api.csm.interfaces.user.UserService;
 import com.api.csm.models.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -18,12 +18,12 @@ import java.util.UUID;
 @RequestMapping("/users")
 @RequiredArgsConstructor
 public class UserController {
-    private final UserUseCase userUseCase;
+    private final UserService userService;
     private final CustomUserDetailService customUserDetailService;
 
     @PostMapping
     public ResponseEntity<User> create(@RequestBody User user) {
-        return ResponseEntity.ok(userUseCase.create(user));
+        return ResponseEntity.ok(userService.create(user));
     }
 
     @GetMapping("/me")
@@ -37,7 +37,7 @@ public class UserController {
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/{id}")
     public ResponseEntity<User> getById(@PathVariable UUID id) {
-        return userUseCase.getById(id)
+        return userService.getById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
@@ -51,7 +51,7 @@ public class UserController {
             @RequestParam(defaultValue = "true") boolean ascending
     ) {
 
-        return ResponseEntity.ok(userUseCase.getAll(
+        return ResponseEntity.ok(userService.getAll(
                 limit,
                 page,
                 sortBy,
@@ -61,13 +61,13 @@ public class UserController {
 
     @PutMapping("/{id}")
     public ResponseEntity<User> update(@PathVariable UUID id, @RequestBody User user) {
-        return ResponseEntity.ok(userUseCase.update(id, user));
+        return ResponseEntity.ok(userService.update(id, user));
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable UUID id) {
-        userUseCase.delete(id);
+        userService.delete(id);
         return ResponseEntity.noContent().build();
     }
 }

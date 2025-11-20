@@ -1,4 +1,4 @@
-package com.api.csm.config;
+package com.api.csm.config.auth;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

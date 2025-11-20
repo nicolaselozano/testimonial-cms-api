@@ -1,6 +1,6 @@
-package com.api.csm.services;
+package com.api.csm.services.user;
 
-import com.api.csm.interfaces.UserUseCase;
+import com.api.csm.interfaces.user.UserService;
 import com.api.csm.models.User;
 import com.api.csm.repository.UserRepository;
 import com.api.csm.utils.RoleEnum;
@@ -17,7 +17,7 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class UserUseService implements UserUseCase {
+public class UserUseService implements UserService {
     private final UserRepository userRepository;
 
     public User create(User user) {
