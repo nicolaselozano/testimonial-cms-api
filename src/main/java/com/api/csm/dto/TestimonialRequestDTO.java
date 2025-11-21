@@ -4,13 +4,12 @@ package com.api.csm.dto;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
-import org.apache.catalina.LifecycleState;
 
 import java.util.List;
 
 @Data
 
-public class CreateTestimonialRequest {
+public class TestimonialRequestDTO {
 
     @NotBlank
     @Size(max = 255)
