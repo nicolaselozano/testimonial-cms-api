@@ -35,7 +35,7 @@ public class Testimonial {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    @ManyToOne
+    @ManyToMany
     @JoinTable(
             name = "testimonial_category",
             joinColumns = @JoinColumn(name = "testimonial_id"),
