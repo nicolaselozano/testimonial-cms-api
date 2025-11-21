@@ -2,7 +2,7 @@ package com.api.csm.controllers.tag;
 
 import com.api.csm.dto.tag.TagRequest;
 import com.api.csm.dto.tag.TagResponse;
-import com.api.csm.services.TagService;
+import com.api.csm.services.tag.TagService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;

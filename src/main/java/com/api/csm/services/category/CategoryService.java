@@ -1,14 +1,13 @@
-package com.api.csm.services;
+package com.api.csm.services.category;
 
 
 import com.api.csm.dto.category.CategoryRequest;
 import com.api.csm.dto.category.CategoryResponse;
 import com.api.csm.models.Category;
-import com.api.csm.repository.CategoryRepository;
+import com.api.csm.repository.category.CategoryRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service

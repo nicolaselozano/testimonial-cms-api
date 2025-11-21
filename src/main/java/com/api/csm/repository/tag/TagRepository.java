@@ -1,4 +1,4 @@
-package com.api.csm.repository;
+package com.api.csm.repository.tag;
 
 import com.api.csm.models.Tag;
 import org.springframework.data.jpa.repository.JpaRepository;

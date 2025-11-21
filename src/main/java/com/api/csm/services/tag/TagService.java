@@ -1,13 +1,12 @@
-package com.api.csm.services;
+package com.api.csm.services.tag;
 
 import com.api.csm.dto.tag.TagRequest;
 import com.api.csm.dto.tag.TagResponse;
 import com.api.csm.models.Tag;
-import com.api.csm.repository.TagRepository;
+import com.api.csm.repository.tag.TagRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service

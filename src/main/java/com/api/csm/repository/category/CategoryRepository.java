@@ -1,4 +1,4 @@
-package com.api.csm.repository;
+package com.api.csm.repository.category;
 
 import com.api.csm.models.Category;
 import org.springframework.data.jpa.repository.JpaRepository;
