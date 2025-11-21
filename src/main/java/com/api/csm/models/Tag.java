@@ -17,6 +17,6 @@ public class Tag {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @Column(unique = true,nullable = false)
+    @Column(name = "name", nullable = false, unique = true, length = 100)
     private String name;
 }
