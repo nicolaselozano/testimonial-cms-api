@@ -1,6 +1,8 @@
 package com.api.csm.dto.tag;
 
+import java.util.UUID;
+
 public record TagResponse(
-        Long id,
+        UUID id,
         String name
 ) {}

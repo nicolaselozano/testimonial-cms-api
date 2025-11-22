@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @Transactional
@@ -34,7 +35,7 @@ public class CategoryService {
         return mapToResponse(saved);
     }
 
-    public CategoryResponse updateCategory(Long id, CategoryRequest request) {
+    public CategoryResponse updateCategory(UUID id, CategoryRequest request) {
         Category category = categoryRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Categoría no encontrada"));
 
@@ -58,13 +59,13 @@ public class CategoryService {
                 .toList();
     }
 
-    public CategoryResponse getCategoryById(Long id) {
+    public CategoryResponse getCategoryById(UUID id) {
         Category category = categoryRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Categoría no encontrada"));
         return mapToResponse(category);
     }
 
-    public void deleteCategory(Long id) {
+    public void deleteCategory(UUID id) {
         if (!categoryRepository.existsById(id)) {
             throw new IllegalArgumentException("Categoría no encontrada");
         }

@@ -1,25 +1,22 @@
 package com.api.csm.models;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+
+import java.util.UUID;
 
 @Entity
 @Table(name = "tags")
-@Getter
-@Setter
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Tag {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // serial
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
 
     @Column(name = "name", nullable = false, unique = true, length = 100)
     private String name;
-
-    public Tag() {}
-
-    public Tag(String name) {
-        this.name = name;
-    }
-
 }

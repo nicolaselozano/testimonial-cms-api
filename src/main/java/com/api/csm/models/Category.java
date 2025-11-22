@@ -1,31 +1,25 @@
 package com.api.csm.models;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+
+import java.util.UUID;
 
 @Entity
 @Table(name = "categories")
-@Getter
-@Setter
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Category {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
 
     @Column(name = "name", nullable = false, unique = true, length = 100)
     private String name;
 
     @Column(name = "description", length = 255)
     private String description;
-
-
-    public Category() {}
-
-    public Category(String name, String description) {
-        this.name = name;
-        this.description = description;
-    }
-
 }
