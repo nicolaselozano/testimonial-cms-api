@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/tags")
@@ -38,7 +39,7 @@ public class TagController {
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<TagResponse> updateTag(
-            @PathVariable Long id,
+            @PathVariable UUID id,
             @Valid @RequestBody TagRequest request) {
 
         TagResponse updated = tagService.updateTag(id, request);
@@ -53,14 +54,14 @@ public class TagController {
 
     // GET /api/tags/{id}
     @GetMapping("/{id}")
-    public ResponseEntity<TagResponse> getTagById(@PathVariable Long id) {
+    public ResponseEntity<TagResponse> getTagById(@PathVariable UUID id) {
         return ResponseEntity.ok(tagService.getTagById(id));
     }
 
     // DELETE /api/tags/{id}
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Void> deleteTag(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteTag(@PathVariable UUID id) {
         tagService.deleteTag(id);
         return ResponseEntity.noContent().build();
     }

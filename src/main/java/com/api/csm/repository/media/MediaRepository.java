@@ -1,4 +1,4 @@
-package com.api.csm.repository;
+package com.api.csm.repository.media;
 
 import com.api.csm.models.Media;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -6,14 +6,11 @@ import com.api.csm.services.category.CategoryService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import com.api.csm.dto.CategoryRequestDTO;
-import com.api.csm.dto.CategoryResponseDTO;
-import com.api.csm.services.CategoryService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/categories")
@@ -42,7 +39,7 @@ public class CategoryController {
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<CategoryResponse> updateCategory(
-            @PathVariable Long id,
+            @PathVariable UUID id,
             @Valid @RequestBody CategoryRequest request) {
 
         CategoryResponse updated = categoryService.updateCategory(id, request);
@@ -57,14 +54,14 @@ public class CategoryController {
 
     // GET /api/categories/{id}
     @GetMapping("/{id}")
-    public ResponseEntity<CategoryResponse> getById(@PathVariable Long id) {
+    public ResponseEntity<CategoryResponse> getById(@PathVariable UUID id) {
         return ResponseEntity.ok(categoryService.getCategoryById(id));
     }
 
     // DELETE /api/categories/{id}
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
+    public ResponseEntity<Void> delete(@PathVariable UUID id) {
         categoryService.deleteCategory(id);
         return ResponseEntity.noContent().build();
     }

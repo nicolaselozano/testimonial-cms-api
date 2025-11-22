@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @Transactional
@@ -32,7 +33,7 @@ public class TagService {
         return mapToResponse(saved);
     }
 
-    public TagResponse updateTag(Long id, TagRequest request) {
+    public TagResponse updateTag(UUID id, TagRequest request) {
         Tag tag = tagRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Tag no encontrado"));
 
@@ -53,13 +54,13 @@ public class TagService {
                 .toList();
     }
 
-    public TagResponse getTagById(Long id) {
+    public TagResponse getTagById(UUID id) {
         Tag tag = tagRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Tag no encontrado"));
         return mapToResponse(tag);
     }
 
-    public void deleteTag(Long id) {
+    public void deleteTag(UUID id) {
         if (!tagRepository.existsById(id)) {
             throw new IllegalArgumentException("Tag no encontrado");
         }

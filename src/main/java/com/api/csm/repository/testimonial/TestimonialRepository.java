@@ -1,4 +1,4 @@
-package com.api.csm.repository;
+package com.api.csm.repository.testimonial;
 
 import com.api.csm.models.Testimonial;
 import org.springframework.data.jpa.repository.JpaRepository;

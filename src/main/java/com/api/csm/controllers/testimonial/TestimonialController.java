@@ -1,9 +1,8 @@
 package com.api.csm.controllers.testimonial;
 
-import com.api.csm.dto.TestimonialRequestDTO;
-import com.api.csm.dto.TestimonialResponseDTO;
-import com.api.csm.models.Testimonial;
-import com.api.csm.services.TestimonialService;
+import com.api.csm.dto.testimonial.TestimonialRequest;
+import com.api.csm.dto.testimonial.TestimonialResponse;
+import com.api.csm.services.testimonial.TestimonialService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,13 +18,13 @@ public class TestimonialController {
     private final TestimonialService testimonialService;
 
     @PostMapping
-    public ResponseEntity<TestimonialResponseDTO> create(
-            @RequestBody TestimonialRequestDTO request,
+    public ResponseEntity<TestimonialResponse> create(
+            @RequestBody TestimonialRequest request,
             Authentication authentication
     ){
         UUID userId = UUID.fromString(authentication.getName());
 
-        TestimonialResponseDTO created = testimonialService.createTestimonial(request,userId);
+        TestimonialResponse created = testimonialService.createTestimonial(request,userId);
 
         return ResponseEntity.ok(created);
     }

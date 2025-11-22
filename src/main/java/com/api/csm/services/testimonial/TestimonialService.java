@@ -1,10 +1,16 @@
-package com.api.csm.services;
+package com.api.csm.services.testimonial;
 
-import com.api.csm.dto.TestimonialRequestDTO;
-import com.api.csm.dto.TestimonialResponseDTO;
-import com.api.csm.mapper.TestimonialMapper;
+import com.api.csm.dto.category.CategoryResponse;
+import com.api.csm.dto.media.MediaResponse;
+import com.api.csm.dto.tag.TagResponse;
+import com.api.csm.dto.testimonial.TestimonialRequest;
+import com.api.csm.dto.testimonial.TestimonialResponse;
 import com.api.csm.models.*;
 import com.api.csm.repository.*;
+import com.api.csm.repository.category.CategoryRepository;
+import com.api.csm.repository.media.MediaRepository;
+import com.api.csm.repository.tag.TagRepository;
+import com.api.csm.repository.testimonial.TestimonialRepository;
 import com.api.csm.utils.MediaType;
 import com.api.csm.utils.TestimonialStatus;
 import lombok.RequiredArgsConstructor;
@@ -24,11 +30,10 @@ public class TestimonialService {
     private final TagRepository tagRepository;
     private final MediaRepository mediaRepository;
     private final UserRepository userRepository;
-    private final TestimonialMapper mapper;
 
-    public TestimonialResponseDTO createTestimonial(TestimonialRequestDTO request, UUID userId){
-        User user;
-        user= userRepository.findById(userId)
+    public TestimonialResponse createTestimonial(TestimonialRequest request, UUID userId){
+
+        User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado."));
 
         //Obtener categories
@@ -56,8 +61,6 @@ public class TestimonialService {
                 .categories(categories)
                 .build();
 
-        testimonialRepository.save(testimonial);
-
         //Guardar medias
         if(request.getMediaUrls()!=null){
             List<Media> mediaList = request.getMediaUrls().stream()
@@ -67,12 +70,29 @@ public class TestimonialService {
                             .testimonial(testimonial)
                             .build())
                     .collect(Collectors.toList());
-
-            mediaRepository.saveAll(mediaList);
-
             testimonial.setMedia(mediaList);
         }
 
-        return mapper.toResponseDTO(testimonial);
+        Testimonial saved = testimonialRepository.save(testimonial);
+        return mapToResponse(saved);
+    }
+
+    private TestimonialResponse mapToResponse(Testimonial t){
+        return new TestimonialResponse(
+                t.getId(),
+                t.getTitle(),
+                t.getContent(),
+                t.getStatus(),
+                t.getCreatedBy().getId(),
+                t.getCreatedBy().getFullname(),
+                t.getCreatedAt(),
+                t.getUpdatedAt(),
+                t.getCategories().stream()
+                        .map(cat -> new CategoryResponse(cat.getId(), cat.getName(), cat.getDescription())).toList(),
+                t.getTags().stream()
+                        .map(tag -> new TagResponse(tag.getId(),tag.getName())).toList(),
+                t.getMedia().stream()
+                        .map(m -> new MediaResponse(m.getId(),m.getUrl(),m.getType())).toList()
+        );
     }
 }

@@ -1,4 +1,4 @@
-package com.api.csm.dto;
+package com.api.csm.dto.testimonial;
 
 
 import jakarta.validation.constraints.NotBlank;
@@ -9,7 +9,7 @@ import java.util.List;
 
 @Data
 
-public class TestimonialRequestDTO {
+public class TestimonialRequest {
 
     @NotBlank
     @Size(max = 255)
