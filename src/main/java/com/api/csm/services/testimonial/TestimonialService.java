@@ -1,0 +1,98 @@
+package com.api.csm.services.testimonial;
+
+import com.api.csm.dto.category.CategoryResponse;
+import com.api.csm.dto.media.MediaResponse;
+import com.api.csm.dto.tag.TagResponse;
+import com.api.csm.dto.testimonial.TestimonialRequest;
+import com.api.csm.dto.testimonial.TestimonialResponse;
+import com.api.csm.models.*;
+import com.api.csm.repository.*;
+import com.api.csm.repository.category.CategoryRepository;
+import com.api.csm.repository.media.MediaRepository;
+import com.api.csm.repository.tag.TagRepository;
+import com.api.csm.repository.testimonial.TestimonialRepository;
+import com.api.csm.utils.MediaType;
+import com.api.csm.utils.TestimonialStatus;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
+
+@Service
+@RequiredArgsConstructor
+public class TestimonialService {
+
+    private final TestimonialRepository testimonialRepository;
+    private final CategoryRepository categoryRepository;
+    private final TagRepository tagRepository;
+    private final MediaRepository mediaRepository;
+    private final UserRepository userRepository;
+
+    public TestimonialResponse createTestimonial(TestimonialRequest request, UUID userId){
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado."));
+
+        //Obtener categories
+        List<Category> categories = categoryRepository.findAllById(
+                request.getCategories().stream()
+                        .map(UUID::fromString)
+                        .collect(Collectors.toList())
+        );
+
+        //Obtener tags
+        List<Tag> tags = tagRepository.findAllById(
+                request.getTags().stream()
+                        .map(UUID::fromString)
+                        .collect(Collectors.toList())
+        );
+
+        Testimonial testimonial = Testimonial.builder()
+                .title(request.getTitle())
+                .content(request.getContent())
+                .status(TestimonialStatus.PENDING)
+                .createdBy(user)
+                .createdAt(LocalDateTime.now())
+                .updatedAt(LocalDateTime.now())
+                .tags(tags)
+                .categories(categories)
+                .build();
+
+        //Guardar medias
+        if(request.getMediaUrls()!=null){
+            List<Media> mediaList = request.getMediaUrls().stream()
+                    .map(url -> Media.builder()
+                            .url(url)
+                            .type(MediaType.IMAGE)
+                            .testimonial(testimonial)
+                            .build())
+                    .collect(Collectors.toList());
+            testimonial.setMedia(mediaList);
+        }
+
+        Testimonial saved = testimonialRepository.save(testimonial);
+        return mapToResponse(saved);
+    }
+
+    private TestimonialResponse mapToResponse(Testimonial t){
+        return new TestimonialResponse(
+                t.getId(),
+                t.getTitle(),
+                t.getContent(),
+                t.getStatus(),
+                t.getCreatedBy().getId(),
+                t.getCreatedBy().getFullname(),
+                t.getCreatedAt(),
+                t.getUpdatedAt(),
+                t.getCategories().stream()
+                        .map(cat -> new CategoryResponse(cat.getId(), cat.getName(), cat.getDescription())).toList(),
+                t.getTags().stream()
+                        .map(tag -> new TagResponse(tag.getId(),tag.getName())).toList(),
+                t.getMedia().stream()
+                        .map(m -> new MediaResponse(m.getId(),m.getUrl(),m.getType())).toList()
+        );
+    }
+}
