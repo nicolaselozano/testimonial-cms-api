@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.core.Authentication;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -27,5 +28,11 @@ public class TestimonialController {
         TestimonialResponse created = testimonialService.createTestimonial(request,userId);
 
         return ResponseEntity.ok(created);
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<TestimonialResponse>> search(
+            @RequestParam("query") String query) {
+        return ResponseEntity.ok(testimonialService.search(query));
     }
 }

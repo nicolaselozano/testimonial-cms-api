@@ -95,4 +95,17 @@ public class TestimonialService {
                         .map(m -> new MediaResponse(m.getId(),m.getUrl(),m.getType())).toList()
         );
     }
+
+    public List<TestimonialResponse> search(String query){
+        String sanitizedQuery = (query == null) ? "" : query.trim();
+        if(sanitizedQuery.isBlank()){
+            return List.of();
+        }
+
+        List<Testimonial> results = testimonialRepository.searchTestimonialsByQuery(TestimonialStatus.APPROVED, sanitizedQuery);
+
+        return results.stream()
+                .map(this::mapToResponse)
+                .toList();
+    }
 }
