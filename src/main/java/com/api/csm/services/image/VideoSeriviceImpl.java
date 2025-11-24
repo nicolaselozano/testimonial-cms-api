@@ -1,10 +1,11 @@
 package com.api.csm.services.image;
 
+import com.api.csm.config.cloudinary.CloudinaryConfiguration;
 import com.api.csm.config.properties.CloudProperties;
 import com.api.csm.interfaces.cloudinary.CloudinaryService;
-import com.api.csm.interfaces.image.ImageService;
-import com.api.csm.models.Image;
-import com.api.csm.repository.ImageRepository;
+import com.api.csm.interfaces.video.VideoService;
+import com.api.csm.models.Video;
+import com.api.csm.repository.VideoRepository;
 import com.api.csm.utils.image.FileModel;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -14,19 +15,18 @@ import java.util.Map;
 
 @Service
 @AllArgsConstructor
-public class ImageServiceImpl implements ImageService {
+public class VideoSeriviceImpl implements VideoService {
 
     private final CloudinaryService cloudinaryService;
-    private final ImageRepository imageRepository;
+    private final VideoRepository videoRepository;
     private final CloudProperties cloudProperties;
-
-    public ResponseEntity<Map> uploadImage(FileModel fileModel) {
+    public ResponseEntity<Map> uploadVideo(FileModel fileModel) {
         try {
             if (fileModel.getName().isEmpty() || fileModel.getFile().isEmpty()) {
                 return ResponseEntity.badRequest().build();
             }
 
-            Map<String, String> result = cloudinaryService.uploadImageFile(
+            Map<String, String> result = cloudinaryService.uploadVideoFile(
                     fileModel.getFile(), cloudProperties.getFolderName()
             );
 
@@ -37,13 +37,13 @@ public class ImageServiceImpl implements ImageService {
             String publicId = result.get("public_id");
             String url = result.get("url");
 
-            Image image = new Image();
+            Video image = new Video();
             image.setName(fileModel.getName());
             image.setUrl(url);
             image.setPublicId(publicId);
 
             try {
-                imageRepository.save(image);
+                videoRepository.save(image);
             } catch (Exception e) {
                 cloudinaryService.delete(publicId);
                 throw e;
@@ -56,6 +56,5 @@ public class ImageServiceImpl implements ImageService {
             return ResponseEntity.internalServerError().body(Map.of("error", "Unexpected error"));
         }
     }
-
 
 }
