@@ -1,10 +1,13 @@
 package com.api.csm.controllers.testimonial;
 
+import com.api.csm.dto.testimonial.ModerateTestimonialRequest;
 import com.api.csm.dto.testimonial.TestimonialRequest;
 import com.api.csm.dto.testimonial.TestimonialResponse;
 import com.api.csm.services.testimonial.TestimonialService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.core.Authentication;
 
@@ -27,5 +30,15 @@ public class TestimonialController {
         TestimonialResponse created = testimonialService.createTestimonial(request,userId);
 
         return ResponseEntity.ok(created);
+    }
+
+    @PatchMapping("/{id}/moderate")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<TestimonialResponse> moderate(
+        @PathVariable UUID id,
+        @Valid @RequestBody ModerateTestimonialRequest request){
+
+        TestimonialResponse response = testimonialService.moderate(id,request.status());
+        return ResponseEntity.ok(response);
     }
 }
