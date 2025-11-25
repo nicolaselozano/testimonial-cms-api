@@ -9,7 +9,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.UUID;
 
 @Slf4j
@@ -18,6 +17,7 @@ import java.util.UUID;
 @RequestMapping("/roles")
 @RequiredArgsConstructor
 public class RoleController {
+
     private final RoleService roleService;
 
     @PatchMapping
