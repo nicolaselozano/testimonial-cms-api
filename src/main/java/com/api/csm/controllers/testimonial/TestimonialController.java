@@ -4,6 +4,8 @@ import com.api.csm.dto.testimonial.ModerateTestimonialRequest;
 import com.api.csm.dto.testimonial.TestimonialRequest;
 import com.api.csm.dto.testimonial.TestimonialResponse;
 import com.api.csm.services.testimonial.TestimonialService;
+import com.api.csm.utils.TestimonialStatus;
+import jakarta.annotation.security.PermitAll;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +13,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.core.Authentication;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -33,12 +36,21 @@ public class TestimonialController {
     }
 
     @PatchMapping("/{id}/moderate")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<TestimonialResponse> moderate(
         @PathVariable UUID id,
         @Valid @RequestBody ModerateTestimonialRequest request){
 
         TestimonialResponse response = testimonialService.moderate(id,request.status());
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping
+    @PermitAll
+    public ResponseEntity<List<TestimonialResponse>> getApproved(
+            @RequestParam(required = false)TestimonialStatus status){
+
+        if (status == null) status = TestimonialStatus.APPROVED;
+        return ResponseEntity.ok(testimonialService.findByStatus(status));
     }
 }

@@ -110,4 +110,12 @@ public class TestimonialService {
         Testimonial saved = testimonialRepository.save(t);
         return mapToResponse(saved);
     }
+
+    // findByStatus para filtrar las APPROVED
+    public List<TestimonialResponse> findByStatus(TestimonialStatus status){
+        return testimonialRepository.findByStatus(status)
+                .stream()
+                .map(this::mapToResponse)
+                .toList();
+    }
 }
