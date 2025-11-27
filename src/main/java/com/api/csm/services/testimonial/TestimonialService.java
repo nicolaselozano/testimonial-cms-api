@@ -15,6 +15,7 @@ import com.api.csm.utils.MediaType;
 import com.api.csm.utils.TestimonialStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -94,5 +95,27 @@ public class TestimonialService {
                 t.getMedia().stream()
                         .map(m -> new MediaResponse(m.getId(),m.getUrl(),m.getType())).toList()
         );
+    }
+
+    @Transactional
+    public TestimonialResponse moderate(UUID id,TestimonialStatus newStatus){
+        Testimonial t = testimonialRepository.findById(id)
+                .orElseThrow(()-> new IllegalArgumentException("Testimonio no encontrado."));
+
+        if(t.getStatus() == TestimonialStatus.APPROVED)
+            throw new IllegalArgumentException("No se puede moderar un testimonio Aprobado.");
+
+        t.setStatus(newStatus);
+        t.setUpdatedAt(LocalDateTime.now());
+        Testimonial saved = testimonialRepository.save(t);
+        return mapToResponse(saved);
+    }
+
+    // findByStatus para filtrar las APPROVED
+    public List<TestimonialResponse> findByStatus(TestimonialStatus status){
+        return testimonialRepository.findByStatus(status)
+                .stream()
+                .map(this::mapToResponse)
+                .toList();
     }
 }
