@@ -18,8 +18,11 @@ public class TestimonialRequest {
     @NotBlank
     private String content;
 
-    //Lista de urls de media
-    private List<String> mediaUrls;
+    //Lista de urls de imágenes
+    private List<String> imageUrls;
+
+    //Lista de urls de videos
+    private List<String> videoUrls;
 
     //Lista de los ids de categories y tags
     private List<String> categories;
