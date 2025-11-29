@@ -20,5 +20,6 @@ public record TestimonialResponse (
     LocalDateTime updatedAt,
     List<CategoryResponse> categories,
     List<TagResponse> tags,
-    List<MediaResponse> media
+    List<MediaResponse> images,
+    List<MediaResponse> videos
 ){}
