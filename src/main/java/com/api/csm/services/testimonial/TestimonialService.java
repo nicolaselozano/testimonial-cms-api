@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -62,15 +63,34 @@ public class TestimonialService {
                 .categories(categories)
                 .build();
 
-        //Guardar medias
-        if(request.getMediaUrls()!=null){
-            List<Media> mediaList = request.getMediaUrls().stream()
+
+        List<Media> mediaList = new ArrayList<>();
+
+        //Guardar imágenes
+        if(request.getImageUrls()!=null){
+            mediaList.addAll(
+                request.getImageUrls().stream()
                     .map(url -> Media.builder()
                             .url(url)
                             .type(MediaType.IMAGE)
                             .testimonial(testimonial)
                             .build())
-                    .collect(Collectors.toList());
+                    .toList());
+        }
+
+        //Guardar videos
+        if(request.getVideoUrls()!=null){
+            mediaList.addAll(
+                    request.getVideoUrls().stream()
+                            .map(url -> Media.builder()
+                                    .url(url)
+                                    .type(MediaType.VIDEO)
+                                    .testimonial(testimonial)
+                                    .build())
+                            .toList());
+        }
+
+        if(!mediaList.isEmpty()){
             testimonial.setMedia(mediaList);
         }
 
@@ -79,6 +99,14 @@ public class TestimonialService {
     }
 
     private TestimonialResponse mapToResponse(Testimonial t){
+        List<Media> images = t.getMedia().stream()
+                .filter(m -> m.getType() == MediaType.IMAGE)
+                .toList();
+
+        List<Media> videos = t.getMedia().stream()
+                .filter(m -> m.getType() == MediaType.VIDEO)
+                .toList();
+
         return new TestimonialResponse(
                 t.getId(),
                 t.getTitle(),
@@ -89,11 +117,17 @@ public class TestimonialService {
                 t.getCreatedAt(),
                 t.getUpdatedAt(),
                 t.getCategories().stream()
-                        .map(cat -> new CategoryResponse(cat.getId(), cat.getName(), cat.getDescription())).toList(),
+                        .map(cat -> new CategoryResponse(cat.getId(), cat.getName(), cat.getDescription()))
+                        .toList(),
                 t.getTags().stream()
-                        .map(tag -> new TagResponse(tag.getId(),tag.getName())).toList(),
-                t.getMedia().stream()
-                        .map(m -> new MediaResponse(m.getId(),m.getUrl(),m.getType())).toList()
+                        .map(tag -> new TagResponse(tag.getId(),tag.getName()))
+                        .toList(),
+                images.stream()
+                                .map(m -> new MediaResponse(m.getId(),m.getUrl(),m.getType()))
+                        .toList(),
+                videos.stream()
+                                .map(m -> new MediaResponse(m.getId(),m.getUrl(),m.getType()))
+                        .toList()
         );
     }
 

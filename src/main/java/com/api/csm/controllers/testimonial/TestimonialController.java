@@ -36,7 +36,7 @@ public class TestimonialController {
     }
 
     @PatchMapping("/{id}/moderate")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<TestimonialResponse> moderate(
         @PathVariable UUID id,
         @Valid @RequestBody ModerateTestimonialRequest request){
