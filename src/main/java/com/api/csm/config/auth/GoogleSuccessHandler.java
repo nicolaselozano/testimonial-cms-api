@@ -55,7 +55,9 @@ public class GoogleSuccessHandler implements AuthenticationSuccessHandler {
 
             log.info("JWT generado para userId={} email={}", userEntity.getId(), userEntity.getEmail());
 
-            response.sendRedirect("/oauth2/success");
+//            response.sendRedirect("/oauth2/success");
+            response.sendRedirect("http://localhost:5173/auth/success");
+
         } catch (RuntimeException e) {
             throw e;
         } catch (Exception e) {
