@@ -131,6 +131,7 @@ public class TestimonialService {
         );
     }
 
+
     @Transactional
     public TestimonialResponse moderate(UUID id,TestimonialStatus newStatus){
         Testimonial t = testimonialRepository.findById(id)
@@ -146,9 +147,22 @@ public class TestimonialService {
     }
 
     // findByStatus para filtrar las APPROVED
-    public List<TestimonialResponse> findByStatus(TestimonialStatus status){
+    public List<TestimonialResponse> findByStatus(TestimonialStatus status) {
         return testimonialRepository.findByStatus(status)
                 .stream()
+                .map(this::mapToResponse)
+                .toList();
+    }
+
+    public List<TestimonialResponse> search(String query){
+        String sanitizedQuery = (query == null) ? "" : query.trim();
+        if(sanitizedQuery.isBlank()){
+            return List.of();
+        }
+
+        List<Testimonial> results = testimonialRepository.searchTestimonialsByQueryAndStatus(TestimonialStatus.APPROVED, sanitizedQuery);
+
+        return results.stream()
                 .map(this::mapToResponse)
                 .toList();
     }

@@ -35,6 +35,7 @@ public class TestimonialController {
         return ResponseEntity.ok(created);
     }
 
+
     @PatchMapping("/{id}/moderate")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<TestimonialResponse> moderate(
@@ -48,9 +49,16 @@ public class TestimonialController {
     @GetMapping
     @PermitAll
     public ResponseEntity<List<TestimonialResponse>> getApproved(
-            @RequestParam(required = false)TestimonialStatus status){
+            @RequestParam(required = false)TestimonialStatus status) {
 
         if (status == null) status = TestimonialStatus.APPROVED;
         return ResponseEntity.ok(testimonialService.findByStatus(status));
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<TestimonialResponse>> search(
+            @RequestParam("query") String query) {
+
+        return ResponseEntity.ok(testimonialService.search(query));
     }
 }
