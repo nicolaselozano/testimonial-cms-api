@@ -92,6 +92,8 @@ public class TestimonialService {
 
         if(!mediaList.isEmpty()){
             testimonial.setMedia(mediaList);
+        }else{
+            throw new RuntimeException("Falta de archivos multimedia");
         }
 
         Testimonial saved = testimonialRepository.save(testimonial);
