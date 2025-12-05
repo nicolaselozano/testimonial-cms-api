@@ -5,6 +5,7 @@ import com.api.csm.dto.media.MediaResponse;
 import com.api.csm.dto.tag.TagResponse;
 import com.api.csm.dto.testimonial.TestimonialRequest;
 import com.api.csm.dto.testimonial.TestimonialResponse;
+import com.api.csm.dto.testimonial.TestimonialStatsResponse;
 import com.api.csm.models.*;
 import com.api.csm.repository.*;
 import com.api.csm.repository.category.CategoryRepository;
@@ -167,5 +168,14 @@ public class TestimonialService {
         return results.stream()
                 .map(this::mapToResponse)
                 .toList();
+    }
+
+    public TestimonialStatsResponse getStats() {
+        long total = testimonialRepository.count();
+        long approved = testimonialRepository.countByStatus(TestimonialStatus.APPROVED);
+        long pending = testimonialRepository.countByStatus(TestimonialStatus.PENDING);
+        long rejected = testimonialRepository.countByStatus(TestimonialStatus.REJECTED);
+
+        return new TestimonialStatsResponse(total, approved, pending, rejected);
     }
 }
