@@ -28,6 +28,12 @@ public interface TestimonialRepository extends JpaRepository<Testimonial, UUID> 
            """)
     List<Testimonial> searchTestimonialsByQueryAndStatus( @Param("status") TestimonialStatus status, @Param("query") String query);
 
+    //metodos para tarjetas con totales por estado
+    @Query("SELECT COUNT(t) FROM Testimonial t")
+    long count();
+
+    @Query("SELECT COUNT(t) FROM Testimonial t WHERE t.status = :status")
+    long countByStatus(@Param("status") TestimonialStatus status);
 }
 
 

@@ -3,6 +3,7 @@ package com.api.csm.controllers.testimonial;
 import com.api.csm.dto.testimonial.ModerateTestimonialRequest;
 import com.api.csm.dto.testimonial.TestimonialRequest;
 import com.api.csm.dto.testimonial.TestimonialResponse;
+import com.api.csm.dto.testimonial.TestimonialStatsResponse;
 import com.api.csm.services.testimonial.TestimonialService;
 import com.api.csm.utils.TestimonialStatus;
 import jakarta.annotation.security.PermitAll;
@@ -60,5 +61,13 @@ public class TestimonialController {
             @RequestParam("query") String query) {
 
         return ResponseEntity.ok(testimonialService.search(query));
+    }
+
+    @GetMapping("/stats")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<TestimonialStatsResponse> getStats(){
+        TestimonialStatsResponse stats = testimonialService.getStats();
+
+        return ResponseEntity.ok(stats);
     }
 }
