@@ -24,7 +24,7 @@ public class User extends Auditable {
     @GeneratedValue
     private UUID id;
     private String fullname;
-    @Column(unique = true, nullable = false, length = 20)
+    @Column(unique = true, nullable = false, length = 100)
     private String username;
     @Column(unique = true)
     private String email;
