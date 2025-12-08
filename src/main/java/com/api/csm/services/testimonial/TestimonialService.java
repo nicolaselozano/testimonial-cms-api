@@ -158,7 +158,7 @@ public class TestimonialService {
     }
 
     public List<TestimonialResponse> search(String query){
-        String sanitizedQuery = (query == null) ? "" : query.trim();
+        String sanitizedQuery = QueryFilter.filter(query);
         if(sanitizedQuery.isBlank()){
             return List.of();
         }
