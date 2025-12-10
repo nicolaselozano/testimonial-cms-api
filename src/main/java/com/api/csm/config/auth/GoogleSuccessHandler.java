@@ -4,6 +4,7 @@ import com.api.csm.auth.CookieService;
 import com.api.csm.auth.CustomUserDetailService;
 import com.api.csm.auth.JWTUtils;
 import com.api.csm.auth.RefreshTokenService;
+import com.api.csm.config.properties.AppProperties;
 import com.api.csm.models.User;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -27,6 +28,7 @@ public class GoogleSuccessHandler implements AuthenticationSuccessHandler {
     private final CookieService cookieService;
     private final CustomUserDetailService customUserDetailService;
     private final RefreshTokenService refreshTokenService;
+    private final AppProperties appProperties;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request,
@@ -55,8 +57,7 @@ public class GoogleSuccessHandler implements AuthenticationSuccessHandler {
 
             log.info("JWT generado para userId={} email={}", userEntity.getId(), userEntity.getEmail());
 
-//            response.sendRedirect("/oauth2/success");
-            response.sendRedirect("http://localhost:5173/auth/success");
+            response.sendRedirect(appProperties.getGoogleRedirect());
 
         } catch (RuntimeException e) {
             throw e;

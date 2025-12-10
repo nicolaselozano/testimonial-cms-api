@@ -13,6 +13,7 @@ import java.util.List;
 @Setter
 public class AppProperties {
     private Long ratelimitCapacity;
+    private String googleRedirect;
     private List<String> corsOrigins;
     private String ngrokUrl;
     private String hostUrl;

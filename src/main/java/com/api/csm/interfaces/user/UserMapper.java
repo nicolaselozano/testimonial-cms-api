@@ -1,11 +1,10 @@
 package com.api.csm.interfaces.user;
 
 
-import com.api.csm.dto.UserDetailDto;
+import com.api.csm.dto.user.UserDetailDto;
+import com.api.csm.dto.user.UserUpdateDto;
 import com.api.csm.models.User;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.ReportingPolicy;
+import org.mapstruct.*;
 
 import java.util.UUID;
 
@@ -26,4 +25,6 @@ public interface UserMapper {
             return null;
         }
     }
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    void updateUserFromDto(UserUpdateDto dto, @MappingTarget User entity);
 }
