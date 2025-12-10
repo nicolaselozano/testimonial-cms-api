@@ -149,6 +149,13 @@ public class TestimonialService {
         return mapToResponse(saved);
     }
 
+    public List<TestimonialResponse> findByCreatedById(UUID userId) {
+        return testimonialRepository.findByCreatedByIdOrderByCreatedAtDesc(userId)
+                .stream()
+                .map(this::mapToResponse)
+                .toList();
+    }
+
     // findByStatus para filtrar las APPROVED
     public List<TestimonialResponse> findByStatus(TestimonialStatus status) {
         return testimonialRepository.findByStatus(status)
