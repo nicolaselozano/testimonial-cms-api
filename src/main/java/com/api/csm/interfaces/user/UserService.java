@@ -1,5 +1,6 @@
 package com.api.csm.interfaces.user;
 
+import com.api.csm.dto.user.UserUpdateDto;
 import com.api.csm.models.User;
 import com.api.csm.utils.RoleEnum;
 import org.springframework.data.domain.Page;
@@ -18,4 +19,5 @@ public interface UserService {
     Page<User> getAll(int limit, int page, String sortBy, boolean ascending);
     User update(UUID id, User user);
     void delete(UUID id);
+    User updateUserMe(UUID userId, UserUpdateDto updateDto);
 }

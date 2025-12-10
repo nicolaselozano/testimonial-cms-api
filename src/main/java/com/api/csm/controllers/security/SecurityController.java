@@ -1,7 +1,7 @@
 package com.api.csm.controllers.security;
 
 import com.api.csm.auth.CustomUserDetailService;
-import com.api.csm.dto.UserDetailDto;
+import com.api.csm.dto.user.UserDetailDto;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
