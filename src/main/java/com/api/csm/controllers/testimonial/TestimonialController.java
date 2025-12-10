@@ -36,6 +36,11 @@ public class TestimonialController {
         return ResponseEntity.ok(created);
     }
 
+    @GetMapping("/mine")
+    public ResponseEntity<List<TestimonialResponse>> getMyTestimonials(Authentication authentication) {
+        UUID userId = UUID.fromString(authentication.getName());
+        return ResponseEntity.ok(testimonialService.findByCreatedById(userId));
+    }
 
     @PatchMapping("/{id}/moderate")
     @PreAuthorize("hasRole('ADMIN')")

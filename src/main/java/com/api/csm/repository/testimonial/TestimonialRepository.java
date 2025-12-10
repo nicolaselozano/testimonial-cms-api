@@ -34,6 +34,8 @@ public interface TestimonialRepository extends JpaRepository<Testimonial, UUID> 
 
     @Query("SELECT COUNT(t) FROM Testimonial t WHERE t.status = :status")
     long countByStatus(@Param("status") TestimonialStatus status);
+
+    List<Testimonial> findByCreatedByIdOrderByCreatedAtDesc(UUID createdById);
 }
 
 
