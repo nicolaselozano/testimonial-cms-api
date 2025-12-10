@@ -1,6 +1,7 @@
 package com.api.csm.services.user;
 
-import com.api.csm.interfaces.user.UserService;
+import com.api.csm.dto.user.UserUpdateDto;
+import com.api.csm.interfaces.user.UserMapper;
 import com.api.csm.models.User;
 import com.api.csm.repository.UserRepository;
 import com.api.csm.utils.RoleEnum;
@@ -17,9 +18,18 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class UserUseService implements UserService {
+public class UserService implements com.api.csm.interfaces.user.UserService {
+
+    private final UserMapper userMapper;
     private final UserRepository userRepository;
 
+    public User updateUserMe(UUID userId, UserUpdateDto updateDto){
+        User user = userRepository.findById(userId).orElseThrow();
+
+        userMapper.updateUserFromDto(updateDto,user);
+
+        return userRepository.save(user);
+    }
     public User create(User user) {
         return userRepository.save(user);
     }

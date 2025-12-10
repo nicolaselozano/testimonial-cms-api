@@ -1,7 +1,8 @@
 package com.api.csm.controllers.user;
 
 import com.api.csm.auth.CustomUserDetailService;
-import com.api.csm.dto.UserDetailDto;
+import com.api.csm.dto.user.UserDetailDto;
+import com.api.csm.dto.user.UserUpdateDto;
 import com.api.csm.interfaces.user.UserService;
 import com.api.csm.models.User;
 import lombok.RequiredArgsConstructor;
@@ -32,6 +33,15 @@ public class UserController {
         UserDetailDto dto = customUserDetailService.getUserDetailDtoById(userId);
 
         return ResponseEntity.ok(dto);
+    }
+
+    @PatchMapping("/update/me")
+    public ResponseEntity<String> updateUser(Authentication authentication, UserUpdateDto updateDto) {
+        UUID userId = UUID.fromString(authentication.getName());
+
+        userService.updateUserMe(userId, updateDto);
+
+        return ResponseEntity.ok("Datos del Usuario actualizado correctamente");
     }
 
     @PreAuthorize("hasRole('ADMIN')")

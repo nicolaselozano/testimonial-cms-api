@@ -1,6 +1,7 @@
 package com.api.csm.auth;
 
-import com.api.csm.dto.UserDetailDto;
+import com.api.csm.dto.user.UserDetailDto;
+import com.api.csm.dto.user.UserUpdateDto;
 import com.api.csm.interfaces.user.UserMapper;
 import com.api.csm.models.Role;
 import com.api.csm.models.User;
@@ -28,6 +29,7 @@ public class CustomUserDetailService {
     private final PasswordEncoder passwordEncoder;
     private final RoleRepository roleRepository;
     private final UserMapper userMapper;
+
 
     public User registerUser(String email, String name) throws RuntimeException {
         String randomPassword = UUID.randomUUID().toString();
