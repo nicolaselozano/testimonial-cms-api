@@ -2,7 +2,7 @@ package com.api.csm.models;
 
 import com.api.csm.utils.Auditable;
 import com.api.csm.utils.RoleEnum;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
@@ -31,7 +31,7 @@ public class Role extends Auditable {
     private String description;
 
     @ManyToMany(mappedBy = "roles")
-    @JsonManagedReference
+    @JsonBackReference
     private List<User> users;
 
     @Column(name = "deleted", nullable = false)

@@ -1,7 +1,7 @@
 package com.api.csm.models;
 
 import com.api.csm.utils.Auditable;
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
@@ -37,7 +37,7 @@ public class User extends Auditable {
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
 
-    @JsonBackReference
+    @JsonManagedReference
     private List<Role> roles;
 
     @Column(name = "deleted", nullable = false)
