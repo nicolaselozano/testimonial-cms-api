@@ -19,6 +19,7 @@ public class CorsConfig {
 
     @Bean
     public UrlBasedCorsConfigurationSource corsConfigurationSource() {
+
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowedOriginPatterns(appProperties.getCorsOrigins());
         config.setAllowedMethods(List.of("*"));

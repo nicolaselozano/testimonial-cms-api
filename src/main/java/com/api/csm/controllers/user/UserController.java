@@ -36,7 +36,7 @@ public class UserController {
     }
 
     @PatchMapping("/update/me")
-    public ResponseEntity<String> updateUser(Authentication authentication, UserUpdateDto updateDto) {
+    public ResponseEntity<String> updateUser(Authentication authentication, @RequestBody UserUpdateDto updateDto) {
         UUID userId = UUID.fromString(authentication.getName());
 
         userService.updateUserMe(userId, updateDto);
