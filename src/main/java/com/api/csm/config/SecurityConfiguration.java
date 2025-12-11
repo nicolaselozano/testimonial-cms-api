@@ -49,6 +49,8 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/oauth2/**", "/auth/**","/ws/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/testimonials/search").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/testimonials/public/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/embed/testimonials.js").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/categories/**", "/api/tags/**").permitAll()
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").hasRole("USER")
                         .anyRequest().authenticated()

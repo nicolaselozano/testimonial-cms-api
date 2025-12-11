@@ -6,8 +6,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.List;
 
@@ -20,6 +18,16 @@ public class CorsConfig {
     @Bean
     public UrlBasedCorsConfigurationSource corsConfigurationSource() {
 
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+
+        CorsConfiguration publicConfig = new CorsConfiguration();
+        publicConfig.addAllowedOriginPattern("*");
+        publicConfig.addAllowedMethod("*");
+        publicConfig.addAllowedHeader("*");
+        publicConfig.setAllowCredentials(false);
+
+        source.registerCorsConfiguration("/api/testimonials/public/**", publicConfig);
+
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowedOriginPatterns(appProperties.getCorsOrigins());
         config.setAllowedMethods(List.of("*"));
@@ -27,9 +35,8 @@ public class CorsConfig {
         config.setAllowCredentials(true);
         config.setExposedHeaders(List.of("Set-Cookie"));
 
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);
+
         return source;
     }
 }
-

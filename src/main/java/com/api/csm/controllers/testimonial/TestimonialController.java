@@ -61,6 +61,14 @@ public class TestimonialController {
         return ResponseEntity.ok(testimonialService.findByStatus(status));
     }
 
+    @GetMapping("/public")
+    public ResponseEntity<List<TestimonialResponse>> getPublicApproved(
+            @RequestParam(required = false)TestimonialStatus status) {
+
+        if (status == null) status = TestimonialStatus.APPROVED;
+        return ResponseEntity.ok(testimonialService.findByStatus(status));
+    }
+
     @GetMapping("/search")
     public ResponseEntity<List<TestimonialResponse>> search(
             @RequestParam("query") String query) {
